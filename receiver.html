@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+        <title>京东-欢迎登录</title>
+        <script type="text/javascript" src="src/jsencrypt.min.js"></script>
+    </head>
+    <body>
+    <div id="pwd"></div>
+    <script type="text/javascript">
+        window.SysConfig = {
+        encryptInfo: true};
+        function getQueryString(name) {  
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");  
+            var r = window.location.search.substr(1).match(reg);  
+            if (r != null) return unescape(r[2]);  
+            return null;  
+        }
+
+        function getEntryptPwd(pwd){
+            var pwd = getQueryString('pwd');
+            var pubKey = getQueryString('pubKey');
+
+            if(!pwd || !pubKey || !SysConfig.encryptInfo){
+                //document.getElementById('pwd').innerHTML = "empty";
+                document.getElementById('pwd').innerHTML = window.location.search;
+                return pwd;
+            }
+            var encrypt = new JSEncrypt();
+            encrypt.setPublicKey(pubKey);
+            pwd = encrypt.encrypt(pwd);
+            document.getElementById('pwd').innerHTML = pwd;
+            console.log(pwd);
+            //return encrypt.encrypt(pwd);
+        }
+        getEntryptPwd();
+    </script>
+    </body>
+</html>
+
